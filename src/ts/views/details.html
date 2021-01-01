@@ -1,0 +1,17 @@
+<oj-bind-if test="[[record]]">
+    <oj-accordion id="accordionPage">
+        <oj-bind-for-each data="[[record().items]]">
+            <template>
+                <oj-collapsible :id="[[$current.data.id]]">
+                    <h3 slot="header">
+                        <oj-bind-text value="[[$current.data.header]]"></oj-bind-text>
+                    </h3>
+                    <p>
+                        <oj-bind-text value="[[$current.data.content]]"></oj-bind-text>
+                    </p>
+                </oj-collapsible>
+            </template>
+        </oj-bind-for-each>
+
+    </oj-accordion>
+</oj-bind-if>

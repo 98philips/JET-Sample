@@ -1,0 +1,14 @@
+
+<oj-bind-for-each data="[[listData]]">
+    <template>
+  <oj-action-card :id="[[$current.data.id]]" on-oj-action="[[clickButton]]" style="width: 20%; margin: 20px; text-align: center;">
+    <div class="oj-flex-item oj-flex oj-sm-flex-items-1 " >
+      <div class="oj-flex-item oj-panel demo-mypanel">
+        <h3><oj-bind-text value="[[$current.data.name]]"></oj-bind-text></h3>
+        <oj-bind-text value="[[$current.data.summary]]"></oj-bind-text>
+      </div>
+    </div>
+    
+  </oj-action-card>
+</template>
+</oj-bind-for-each>
