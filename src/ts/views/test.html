@@ -1,11 +1,30 @@
 
 <oj-bind-for-each data="[[listData]]">
     <template>
-  <oj-action-card :id="[[$current.data.id]]" on-oj-action="[[clickButton]]" style="width: 20%; margin: 20px; text-align: center;">
+        <oj-popup :id="[['pop'+$current.data.id]]" >
+            <oj-defer>
+              <p><oj-bind-text value="[[$current.data.description]]"></oj-bind-text></p>
+            </oj-defer>
+          </oj-popup>
+  <oj-action-card :id="[[$current.data.id]]" on-oj-action="[[clickButton]]" style="width: 20%; margin: 20px;" >
     <div class="oj-flex-item oj-flex oj-sm-flex-items-1 " >
-      <div class="oj-flex-item oj-panel demo-mypanel">
+    
+      <div class="oj-flex-item oj-panel demo-mypanel" >
+        <oj-button chroming="borderless"
+        class="oj-button-sm"
+        display="icons"
+        :id="[['btn'+$current.data.id]]" 
+        on-oj-action="[[openListener]]" 
+        data-oj-clickthrough="disabled"
+        style="position:absolute;
+        top:0;
+        right:0;">
+<span slot="startIcon" class="oj-ux-ico-information-s"></span>
+</oj-button>
+        <div style="text-align: center;">
         <h3><oj-bind-text value="[[$current.data.name]]"></oj-bind-text></h3>
         <oj-bind-text value="[[$current.data.summary]]"></oj-bind-text>
+    </div>
       </div>
     </div>
     

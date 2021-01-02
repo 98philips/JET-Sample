@@ -4,8 +4,12 @@ import rawData from 'text!./raw-data.json';
 import "ojs/ojknockout";
 import { ojButtonEventMap } from 'ojs/ojbutton';
 import 'ojs/ojactioncard';
-import 'ojs/ojbutton';
 import CoreRouter from "@oracle/oraclejet/dist/types/ojcorerouter";
+
+import { ojPopup } from 'ojs/ojpopup';
+  import 'ojs/ojpopup';
+  import 'ojs/ojdefer';
+  import 'ojs/ojbutton';
 class TestViewModel {
   heading: ko.Observable<string>
   router: CoreRouter
@@ -32,6 +36,13 @@ class TestViewModel {
     });
     
     return true;
+  };
+
+  public openListener(event: ojButtonEventMap['ojAction']) {
+    let id = (event.currentTarget as HTMLElement).id.substr(3);
+    (document.querySelector('#pop'+id) as ojPopup).open('#btn'+id);
+    console.log((event.currentTarget as HTMLElement).id.substr(3));
+    event.stopPropagation();
   };
 
   /**
