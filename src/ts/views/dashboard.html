@@ -4,7 +4,34 @@
  as shown at https://oss.oracle.com/licenses/upl/
  -->
 <div class="oj-hybrid-padding">
-  <h1><oj-bind-text value="[[heading]]"></oj-bind-text></h1>
-  <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content" config="[[module.koObservableConfig]]">
-  </oj-module>
+  <div class="tabbarcontainer oj-sm-margin-1x-top oj-sm-margin-4x-bottom">
+    <oj-tab-bar class="oj-sm-condense" contextmenu="tabmenu" id="hnavlist" selection="{{index}}"
+       edge="top" data="[[tabDataProvider]]" on-oj-remove="[[onRemove]]" current-item="{{currentIndex}}">
+      <template slot="itemTemplate" data-oj-as="item">
+        <li :class="[[{'oj-disabled' : item.data.disabled, 'oj-removable': item.data.id!=-1}]] ">
+          <a href="#">
+            <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+          </a>
+        </li>
+      </template>
+      <oj-menu slot="contextMenu" class="hidden" aria-label="Actions">
+        <oj-option data-oj-command="oj-tabbar-remove">
+          Removable
+        </oj-option>
+      </oj-menu>
+    
+    </oj-tab-bar>
+  </div>
+  <!-- <h1>
+    <oj-bind-text value="[[selectedItem]]"></oj-bind-text>
+  </h1>
+  selected-item: <oj-bind-text value="[[selectedItem]]"></oj-bind-text><br>
+  current-item<oj-bind-text value="[[currentItem]]"></oj-bind-text> -->
+  
+    <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content"
+      config="[[module.koObservableConfig]]">
+    </oj-module>
+
+
+
 </div>
