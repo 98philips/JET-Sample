@@ -89,8 +89,8 @@ class TestViewModel {
     this.index(-1);
     this.index(tempIndex);
     console.log(this.data());
-    this.itemTitle();
-    this.itemContent();
+    this.itemTitle("");
+    this.itemContent("");
     this.closeDialog();
     return true;
   }
