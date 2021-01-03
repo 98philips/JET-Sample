@@ -4,9 +4,13 @@ import rawData from 'text!./raw-data.json';
 import ArrayDataProvider = require("ojs/ojarraydataprovider");
 import "ojs/ojknockout";
 import { ojButtonEventMap } from 'ojs/ojbutton';
+import { ojDialog } from 'ojs/ojdialog';
 import 'ojs/ojactioncard';
 import 'ojs/ojaccordion';
 import 'ojs/ojlistview';
+import 'ojs/ojinputtext';
+import 'ojs/ojdialog';
+import 'ojs/ojformlayout';
 import CoreRouter from "@oracle/oraclejet/dist/types/ojcorerouter";
 
 import { ojPopup } from 'ojs/ojpopup';
@@ -17,9 +21,12 @@ class TestViewModel {
   index: ko.Observable<number>;
   addTab: Function;
   router: CoreRouter;
+  tempIndex: number;
   listData: { id: number; customerId: number; name: string; summary: string; description: string; items: { id: number; header: string; content: string; }[]; }[];
   data: ko.ObservableArray<{ id: number; customerId: number; name: string; summary: string; description: string; items: { id: number; header: string; content: string; }[]; }>;
   dataProvider: ArrayDataProvider<unknown, unknown>;
+  itemTitle: ko.Observable<string|undefined>;
+  itemContent: ko.Observable<string|undefined>;
   
   constructor(context) {
     this.index = context.routerState.detail.index;
@@ -28,10 +35,31 @@ class TestViewModel {
     this.router = context.parentRouter;
     this.data = ko.observableArray(this.listData);
     this.dataProvider = new ArrayDataProvider(this.data, { keyAttributes: 'id' });
+    this.itemContent = ko.observable();
+    this.itemTitle = ko.observable();
+    this.tempIndex = 0;
     //console.log(JSON.parse(rawData).data);
+    this.openDialog = () => {
+      let itemDialog = document.getElementById('itemDialog') as ojDialog;
+      itemDialog.open();
+    };
 
+    this.closeDialog = () => {
+      let itemDialog = document.getElementById('itemDialog') as ojDialog;
+      itemDialog.close();
+    };
 
   }
+
+  openDialog = () => {
+    let itemDialog = document.getElementById('itemDialog') as ojDialog;
+    itemDialog.open();
+  };
+
+  closeDialog = () => {
+    let itemDialog = document.getElementById('itemDialog') as ojDialog;
+    itemDialog.close();
+  };
 
   public clickButton = (event: ojButtonEventMap['ojAction']) => {
     let key = (event.currentTarget as HTMLElement).id;
@@ -48,6 +76,37 @@ class TestViewModel {
     
     return true;
   };
+
+  public addItem = () =>{
+    this.listData[this.index()].items.push({
+      id: this.tempIndex+2000,
+      header: this.itemTitle(),
+      content: this.itemContent()
+    });
+    this.tempIndex++;
+    this.data(this.listData);
+    let tempIndex = this.index();
+    this.index(-1);
+    this.index(tempIndex);
+    console.log(this.data());
+    this.itemTitle();
+    this.itemContent();
+    this.closeDialog();
+    return true;
+  }
+
+  public deleteItem = (event: ojButtonEventMap['ojAction']) =>{
+    let key = (event.currentTarget as HTMLElement).id.substr(3);
+    for(let i=0;i<this.listData[this.index()].items.length;i++){
+      if(this.listData[this.index()].items[i].id.toString() === key){
+        this.listData[this.index()].items.splice(i,1)
+        break;
+      }
+    }
+    let tempIndex = this.index();
+    this.index(-1);
+    this.index(tempIndex);
+  }
 
   public openListener(event: ojButtonEventMap['ojAction']) {
     let id = (event.currentTarget as HTMLElement).id.substr(3);
