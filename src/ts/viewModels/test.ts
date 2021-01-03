@@ -1,10 +1,12 @@
 import * as AccUtils from "../accUtils";
 import * as ko from "knockout";
 import rawData from 'text!./raw-data.json';
+import ArrayDataProvider = require("ojs/ojarraydataprovider");
 import "ojs/ojknockout";
 import { ojButtonEventMap } from 'ojs/ojbutton';
 import 'ojs/ojactioncard';
 import 'ojs/ojaccordion';
+import 'ojs/ojlistview';
 import CoreRouter from "@oracle/oraclejet/dist/types/ojcorerouter";
 
 import { ojPopup } from 'ojs/ojpopup';
@@ -16,12 +18,16 @@ class TestViewModel {
   addTab: Function;
   router: CoreRouter;
   listData: { id: number; customerId: number; name: string; summary: string; description: string; items: { id: number; header: string; content: string; }[]; }[];
+  data: ko.ObservableArray<{ id: number; customerId: number; name: string; summary: string; description: string; items: { id: number; header: string; content: string; }[]; }>;
+  dataProvider: ArrayDataProvider<unknown, unknown>;
   
   constructor(context) {
     this.index = context.routerState.detail.index;
     this.addTab = context.routerState.detail.addTab;
     this.listData = JSON.parse(rawData).data;
     this.router = context.parentRouter;
+    this.data = ko.observableArray(this.listData);
+    this.dataProvider = new ArrayDataProvider(this.data, { keyAttributes: 'id' });
     //console.log(JSON.parse(rawData).data);
 
 
