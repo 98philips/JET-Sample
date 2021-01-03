@@ -1,85 +1,99 @@
 <oj-bind-if test="[[index() == -1]]">
     <div class="demo-card-container">
-    <oj-list-view id="listview" aria-label="list with card layout" data="[[dataProvider]]" display="card">
-        <template slot="itemTemplate" data-oj-as="item">
-            <li  style="width: 30%; margin: 20px;">
-                <oj-popup :id="[['pop'+item.data.id]]">
-                    <oj-defer>
-                        <p>
-                            <oj-bind-text value="[[item.data.description]]"></oj-bind-text>
-                        </p>
-                    </oj-defer>
-                </oj-popup>
-                <oj-action-card :id="[[item.data.id]]" on-oj-action="[[clickButton]]" style="width: 100%;">
-                    <div class="oj-flex-item oj-flex oj-sm-flex-items-1 ">
+        <oj-masonry-layout id="masonryLayout" class="demo-masonry-size">
+            <oj-bind-for-each data="[[dataProvider]]">
+                <template data-oj-as="item">
+                    <div :id="[['tile'+item.data.id]]" :class="demo-tile oj-masonrylayout-tile-2x1">
+                        <div class="demo-tile-content">
+                            <div class="demo-tile-front demo-tile-shown ">
+                                <oj-action-card :id="[[item.data.id]]" on-oj-action="[[clickButton]]"
+                                    style="width: 100%; height: 100%;">
+                                    <div class="oj-flex-item oj-flex oj-sm-flex-items-1 ">
 
-                        <div class="oj-flex-item oj-panel demo-mypanel">
-                            <oj-button chroming="borderless" class="oj-button-sm" display="icons"
-                                :id="[['btn'+item.data.id]]" on-oj-action="[[openListener]]"
-                                data-oj-clickthrough="disabled" style="position:absolute;
+                                        <div class="oj-flex-item oj-panel demo-mypanel">
+                                            <oj-button chroming="borderless" class="oj-button-sm" display="icons"
+                                                :id="[['front'+item.data.id]]" on-oj-action="[[demoFlipTile]]"
+                                                data-oj-clickthrough="disabled" style="position:absolute;
         top:0;
         right:0;">
-                                <span slot="startIcon" class="oj-ux-ico-information-s"></span>
-                            </oj-button>
-                            <div style="text-align: center;">
-                                <h3>
-                                    <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
-                                </h3>
-                                <oj-bind-text value="[[item.data.summary]]"></oj-bind-text>
-                            </div>
-                        </div>
-                    </div>
+                                                <span slot="startIcon" class="oj-ux-ico-chevron-right"></span>
+                                            </oj-button>
+                                            <div style="text-align: center;">
+                                                <h3>
+                                                    <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                                                </h3>
+                                                <oj-bind-text value="[[item.data.summary]]"></oj-bind-text>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                </oj-action-card>
-            </li>
-        </template>
-    </oj-list-view>
+                                </oj-action-card>
+                            </div>
+                            <oj-defer class="demo-tile-back oj-panel oj-bg-info-30 oj-animation-backface demo-hidden">
+                                 <h4><oj-bind-text value="[[item.data.name]]"></oj-bind-text></h4><br>
+                                  <oj-bind-text value="[[item.data.description]]"></oj-bind-text>
+                                
+                
+                                <div class="demo-back-flip-icon-container">
+                                  <oj-button chroming="borderless"
+                                             display="icons"
+                                             class="oj-button-sm"
+                                             data-oj-clickthrough="disabled"
+                                             on-oj-action="[[demoFlipTile]]"
+                                             :id="[['frontButton'+item.data.id]]"
+                                             >
+                                    <span slot="startIcon" :class="oj-ux-ico-chevron-left"></span>
+                                  </oj-button>
+                                </div>
+                              </oj-defer>
+                              </div>
+                              </div>
+                </template>
+            </oj-bind-for-each>
+        </oj-masonry-layout>
     </div>
 </oj-bind-if>
 <oj-bind-if test="[[index() != -1]]">
     <h1>
         <oj-bind-text value="[[data()[index()].name]]"></oj-bind-text>
-      </h1>
-      <oj-button on-oj-action="[[openDialog]]" >Add Item</oj-button><br>
-      <div>
-    <oj-bind-if test="[[data()[index()]]]">
-        <oj-accordion id="accordionPage">
-            <oj-bind-for-each data="[[data()[index()].items]]">
-                <template>
-                    <oj-collapsible :id="[[$current.data.id]]">
-                        <span slot="header">
-                            <oj-bind-text value="[[$current.data.header]]"></oj-bind-text>
-                            <oj-button chroming="borderless" class="oj-button-sm" display="icons" 
-                                on-oj-action="[[deleteItem]]"
-                                :id="[['btn'+$current.data.id]]" 
-                                data-oj-clickthrough="disabled" style="position:absolute;
-        
-        right:0;">
-                                <span slot="startIcon" class="oj-panel-remove-icon"></span>
-                                
-                            </oj-button>
-                        </span>
-                        <p>
-                            <oj-bind-text value="[[$current.data.content]]"></oj-bind-text>
-                        </p>
-                    </oj-collapsible>
-                </template>
-            </oj-bind-for-each>
+    </h1>
+    <oj-button on-oj-action="[[openDialog]]">Add Item</oj-button><br>
+    <div>
+        <oj-bind-if test="[[data()[index()]]]">
+            <oj-accordion id="accordionPage">
+                <oj-bind-for-each data="[[data()[index()].items]]">
+                    <template>
+                        <oj-collapsible :id="[[$current.data.id]]">
+                            <span slot="header">
+                                <oj-bind-text value="[[$current.data.header]]"></oj-bind-text>
+                                <oj-button chroming="borderless" class="oj-button-sm" display="icons"
+                                    on-oj-action="[[deleteItem]]" :id="[['btn'+$current.data.id]]"
+                                    data-oj-clickthrough="disabled" style="position:absolute; right:0;">
+                                    <span slot="startIcon" class="oj-panel-remove-icon"></span>
 
-        </oj-accordion>
-    </oj-bind-if>
+                                </oj-button>
+                            </span>
+                            <p>
+                                <oj-bind-text value="[[$current.data.content]]"></oj-bind-text>
+                            </p>
+                        </oj-collapsible>
+                    </template>
+                </oj-bind-for-each>
+
+            </oj-accordion>
+        </oj-bind-if>
     </div>
 </oj-bind-if>
 <oj-dialog class="tab-dialog hidden" id="itemDialog" dialog-title="Item data">
     <div slot="body">
-      <oj-form-layout>
-        <oj-input-text id="t1" value="{{itemTitle}}" label-hint="Title"></oj-input-text>
-        <oj-input-text id="t2" value="{{itemContent}}" label-hint="Content"></oj-input-text>
-      </oj-form-layout>
+        <oj-form-layout>
+            <oj-input-text id="t1" value="{{itemTitle}}" label-hint="Title"></oj-input-text>
+            <oj-input-text id="t2" value="{{itemContent}}" label-hint="Content"></oj-input-text>
+        </oj-form-layout>
     </div>
 
     <div slot="footer">
-      <oj-button id="idOK" on-oj-action="[[addItem]]">OK</oj-button>
-      <oj-button id="idCancel" on-oj-action="[[closeDialog]]">Cancel</oj-button>
+        <oj-button id="idOK" on-oj-action="[[addItem]]">OK</oj-button>
+        <oj-button id="idCancel" on-oj-action="[[closeDialog]]">Cancel</oj-button>
     </div>
-  </oj-dialog>
+</oj-dialog>
