@@ -225,7 +225,7 @@ class TestViewModel {
    */
   connected(): void {
     AccUtils.announce("Test page loaded.");
-    document.title = "Test";
+    document.title = "Solar System";
     // implement further logic if needed
   }
 

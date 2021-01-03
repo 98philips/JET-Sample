@@ -109,10 +109,10 @@ class RootViewModel {
     // header
 
     // application Name used in Branding Area
-    this.appName = ko.observable("App Name");
+    this.appName = ko.observable("Solar System");
     // user Info used in Global Navigation area
 
-    this.userLogin = ko.observable("john.hancock@oracle.com");
+    this.userLogin = ko.observable("philip.paul@oracle.com");
     // footer
     this.footerLinks = [
       {name: 'About Oracle', linkId: 'aboutOracle', linkTarget:'http://www.oracle.com/us/corporate/index.html#menu-about'},
