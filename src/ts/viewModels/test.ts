@@ -4,6 +4,7 @@ import rawData from 'text!./raw-data.json';
 import "ojs/ojknockout";
 import { ojButtonEventMap } from 'ojs/ojbutton';
 import 'ojs/ojactioncard';
+import 'ojs/ojaccordion';
 import CoreRouter from "@oracle/oraclejet/dist/types/ojcorerouter";
 
 import { ojPopup } from 'ojs/ojpopup';
@@ -11,15 +12,18 @@ import { ojPopup } from 'ojs/ojpopup';
   import 'ojs/ojdefer';
   import 'ojs/ojbutton';
 class TestViewModel {
-  heading: ko.Observable<string>
-  router: CoreRouter
+  index: ko.Observable<number>;
+  addTab: Function;
+  router: CoreRouter;
   listData: { id: number; customerId: number; name: string; summary: string; description: string; items: { id: number; header: string; content: string; }[]; }[];
+  
   constructor(context) {
-    this.heading = context.routerState.detail.heading;
-    this.heading("Home");
+    this.index = context.routerState.detail.index;
+    this.addTab = context.routerState.detail.addTab;
     this.listData = JSON.parse(rawData).data;
     this.router = context.parentRouter;
-    console.log(JSON.parse(rawData).data);
+    //console.log(JSON.parse(rawData).data);
+
 
   }
 
@@ -28,10 +32,11 @@ class TestViewModel {
     console.log((event.currentTarget as HTMLElement).id);
     this.listData.forEach(element => {
       if (element.id.toString() === key) {
-        //this.record(element);
         console.log(element.name);
-        this.heading(element.name);
-        this.router.go({path: 'details', params:{ index: this.listData.indexOf(element)}});
+        let index = this.listData.indexOf(element);
+        //this.index(index);
+        this.addTab(index, element.name);
+        //this.router.go({path: 'details', params:{ index: this.listData.indexOf(element)}});
       }
     });
     
