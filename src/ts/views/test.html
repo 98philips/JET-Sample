@@ -10,20 +10,20 @@
                                     style="width: 100%; height: 100%;">
                                     <div class="oj-flex-item oj-flex oj-sm-flex-items-1 ">
 
-                                        <div class="oj-flex-item oj-panel demo-mypanel">
+                                        <div class="oj-flex-item oj-panel demo-mypanel" style="text-align: center;">
+                                            <div class="demo-front-flip-icon-container">
                                             <oj-button chroming="borderless" class="oj-button-sm" display="icons"
                                                 :id="[['front'+item.data.id]]" on-oj-action="[[demoFlipTile]]"
-                                                data-oj-clickthrough="disabled" style="position:absolute;
-        top:0;
-        right:0;">
+                                                data-oj-clickthrough="disabled" style="position:absolute; right:0;">
                                                 <span slot="startIcon" class="oj-ux-ico-chevron-right"></span>
                                             </oj-button>
-                                            <div style="text-align: center;">
+                                        </div>
+        
                                                 <h3>
                                                     <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
                                                 </h3>
                                                 <oj-bind-text value="[[item.data.summary]]"></oj-bind-text>
-                                            </div>
+                                            
                                         </div>
                                     </div>
 

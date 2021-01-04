@@ -146,6 +146,7 @@ class TestViewModel {
         // Before the tile was flipped, the button used to flip the
         // tile had focus, so now restore focus to the flip button on
         // the side of the tile that is now showing.
+        button.focus();
       
     };
 

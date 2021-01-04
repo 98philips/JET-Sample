@@ -95,7 +95,7 @@ class DashboardViewModel {
           });
         }
       
-      //this.currentIndex(id);
+      this.currentIndex(id);
       console.log(this.data());
       console.log("ID: "+id);
       this.index(id);
